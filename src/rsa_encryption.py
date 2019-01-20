@@ -118,7 +118,7 @@ class RSA:
         d = self.private_key[-1]
         m = self.private_key[0] * self.private_key[1]
 
-        ciphered = self.data.split(' ')
+        ciphered = [int(x) for x in self.data.split(' ')]
         plain = ''
         for i in range(len(ciphered)):
             plain += chr((ciphered[i] ** d) % m)
