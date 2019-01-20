@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter import ttk
+import file_handler as fh
+import otp_modell as om
 
 
 class IntegerEntry(Entry):
@@ -18,13 +20,30 @@ class IntegerEntry(Entry):
 
 
 def open_btn_click():
-    print(selected.get())
+    otp.set_input(fh.get_file())
 
 
 def save_btn_click():
-    print('save')
+    fh.save_encrypted_file(otp.get_output())
 
 
+def generate_key():
+    otp.set_key()
+    fh.save_key(otp.get_key(), 'otp_key')
+
+
+def load_key():
+    otp.set_key(fh.load_key())
+
+
+def start():
+    otp.set_output(selected.get())
+
+
+def quit():
+    window.destroy()
+
+otp = om.OTP_M()
 window = Tk()
 window.title("Welcome to LikeGeeks app")
 window.geometry('350x200')
@@ -58,14 +77,17 @@ txt2.grid(column=1, row=4)
 
 btn1 = Button(tab1, text="Open your input file", command=open_btn_click)
 btn2 = Button(tab1, text="Save your output file", command=save_btn_click)
-btn3 = Button(tab2, text="Open your input file", command=open_btn_click)
-btn4 = Button(tab2, text="Save your output file", command=save_btn_click)
-btn5 = Button(tab1, text="Generate key", command=save_btn_click)
-btn6 = Button(tab2, text="Generate keys", command=save_btn_click)
-btn7 = Button(tab1, text="Start", command=save_btn_click)
-btn8 = Button(tab2, text="Start", command=save_btn_click)
-btn9 = Button(tab1, text="Quit", command=save_btn_click)
-btn10 = Button(tab2, text="Quit", command=save_btn_click)
+btn3 = Button(tab2, text="Open your input file", command=open_btn_click) # TODO
+btn4 = Button(tab2, text="Save your output file", command=save_btn_click) # TODO
+btn5 = Button(tab1, text="Generate key", command=generate_key)
+btn6 = Button(tab2, text="Generate keys", command=generate_key) # TODO
+btn7 = Button(tab1, text="Start", command=start)
+btn8 = Button(tab2, text="Start", command=start) # TODO
+btn9 = Button(tab1, text="Quit", command=quit)
+btn10 = Button(tab2, text="Quit", command=quit)
+btn11 = Button(tab1, text="Load your key", command=load_key)
+btn12 = Button(tab2, text="Load your private key", command=load_key) # TODO
+btn13 = Button(tab2, text="Load the public key", command=load_key) # TODO
 
 btn1.grid(column=0, row=1)
 btn2.grid(column=0, row=2)
@@ -77,6 +99,9 @@ btn7.grid(column=4, row=3)
 btn8.grid(column=4, row=3)
 btn9.grid(column=4, row=4)
 btn10.grid(column=4, row=4)
+btn11.grid(column=0, row=3)
+btn12.grid(column=1, row=1)
+btn13.grid(column=1, row=2)
 
 tab_control.pack(expand=1, fill='both')
 window.mainloop()

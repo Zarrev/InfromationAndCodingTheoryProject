@@ -14,13 +14,10 @@ class OTP:
     Note: I left the self.key class variable in the code because of the easier testing, but in general way it mustn't
     contains it.
     """
+    abc = '0123456789abcdef'
 
-    def __init__(self, input_data):
-        """
-        :param input_data: The data what you want to encrypt in hexadecimal encoding.
-        """
-        self.key = self.gen_key(input_data)
-        self.abc = '0123456789abcdef'
+    def __init__(self):
+        self.key = None
 
     def load_key(self, key):
         """
@@ -37,7 +34,7 @@ class OTP:
         :param msg: data what we want to encrypt. This data's coding is hexadecimal.
         """
         msg_len = len(msg)
-        return os.urandom(msg_len).hex()[:msg_len]
+        self.key = os.urandom(msg_len).hex()[:msg_len]
 
     def en_de_crypt(self, msg, en: bool = True) -> string:
         """
@@ -51,14 +48,14 @@ class OTP:
         if en:
             cipher_msg = ''
             for ind, char in enumerate(msg):
-                cipher = (self.abc.index(self.key[ind]) + self.abc.index(char)) % len(self.abc)
-                cipher_msg += self.abc[cipher]
+                cipher = (OTP.abc.index(self.key[ind]) + OTP.abc.index(char)) % len(OTP.abc)
+                cipher_msg += OTP.abc[cipher]
             return_msg = cipher_msg
         else:
             original_msg = ''
             for ind, char in enumerate(msg):
-                plain = (self.abc.index(char) - self.abc.index(self.key[ind])) % len(self.abc)
-                original_msg += self.abc[plain]
+                plain = (OTP.abc.index(char) - OTP.abc.index(self.key[ind])) % len(OTP.abc)
+                original_msg += OTP.abc[plain]
             return_msg = original_msg
 
         return return_msg
