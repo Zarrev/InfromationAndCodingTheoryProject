@@ -2,6 +2,12 @@ from tkinter import *
 from tkinter import ttk, messagebox
 from III import otp_model as om, file_handler as fh, rsa_model as rm
 
+"""
+This script makes the GUI. We can execute all function what I implemented i.e. RSA and OTP cryptography algorithm.
+I used for it the 'tkinter' what the part of standard library. I implemented the event functions below, and made a new
+class for the restriction of input field for accept only the numbers.
+"""
+
 
 class IntegerEntry(Entry):
     def __init__(self, master=None, **kwargs):
@@ -60,9 +66,10 @@ def generate_key():
     else:
         try:
             fh.save_keys(rsa.get_key(txt1.get_in_int(), txt2.get_in_int()))
-        except:
+        except Exception as e:
             messagebox.showwarning('Warning!',
                                    'You cannot complete this action until you do not give two number (prime)!')
+            print(e)
 
 
 def load_key():
@@ -89,7 +96,7 @@ def start():
         messagebox.showwarning('Warning!', 'You cannot complete this action yet!')
 
 
-def quit():
+def _quit():
     window.quit()
 
 
@@ -134,8 +141,8 @@ btn5 = Button(tab1, text="Generate key and save", command=generate_key)
 btn6 = Button(tab2, text="Generate keys and save", command=generate_key)
 btn7 = Button(tab1, text="Start", command=start)
 btn8 = Button(tab2, text="Start", command=start)
-btn9 = Button(tab1, text="Quit", command=quit)
-btn10 = Button(tab2, text="Quit", command=quit)
+btn9 = Button(tab1, text="Quit", command=_quit)
+btn10 = Button(tab2, text="Quit", command=_quit)
 btn11 = Button(tab1, text="Load your key", command=load_key)
 btn12 = Button(tab2, text="Load a key", command=load_key)
 

@@ -2,6 +2,10 @@ from abc import abstractmethod, ABCMeta
 
 
 class Model(metaclass=ABCMeta):
+    """
+    This class is the parent of the other model classes. It implements the common functions and it contains some
+    abstract method for the later use.
+    """
 
     def __init__(self):
         self.input = None

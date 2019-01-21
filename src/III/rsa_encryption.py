@@ -1,5 +1,6 @@
 import random
 
+
 class RSA:
 
     def __init__(self):
@@ -106,7 +107,7 @@ class RSA:
         ciphered = []
         for i in range(len(self.data)):
             ciphered.append(str((int(self.data[i]) ** e) % m))
-            if ciphered[i] ==2:
+            if ciphered[i] == 2:
                 print(self.data[i], e, m)
                 break
 
@@ -126,12 +127,3 @@ class RSA:
             plain.append(str((ciphered[i] ** d) % m))
 
         return ' '.join(plain)
-
-
-if __name__ == "__main__":
-    import array
-
-    l = [199, 57, 32, 51, 231, 147, 193, 114, 13, 39]
-
-    print(array.array('B', l).tostring())
-    print(bytes(l))

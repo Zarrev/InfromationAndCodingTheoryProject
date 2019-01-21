@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
 from os import getcwd
-import codecs
 
 """
 This global variable is exist for keep the file's name if we need it later.
@@ -12,6 +11,7 @@ filename = 'UNNAMED'
 def get_file(title="Select a file for the operation!", rsa=False):
     """
     This function read the chosen file with the tkinter library what gives the GUI part of this function.
+    :param rsa: This parameter turns the method to RSA mode.
     :param title: Optional parameter, we can redefine the title of the pop-up window.
     :return:
     """
@@ -22,12 +22,8 @@ def get_file(title="Select a file for the operation!", rsa=False):
     filename = root.filename.split(sep='/')[-1]
     data = None
     try:
-        if rsa:
-            with open(root.filename, "rb") as file: # TODO: not sure rb
-                data = file.read()
-        else:
-            with open(root.filename, "rb") as file:
-                data = file.read()
+        with open(root.filename, "rb") as file:
+            data = file.read()
     except Exception as e:
         print('Something went wrong. :(')
         print('Actual error({0}): {1}'.format(e.errno, e.strerror))
@@ -42,6 +38,7 @@ def get_file(title="Select a file for the operation!", rsa=False):
 def save_encrypted_file(data, new_filename=None, title="Select a directory for your file!", rsa=False):
     """
     This function save your encrypted data.
+    :param rsa: This parameter turns the method to RSA mode.
     :param data: That data what you encrypted (the data has hexadecimal encoding).
     :param new_filename: Optional parameter, with this you can redefine your file name.
     :param title: Optional parameter, we can redefine the title of the pop-up window.
@@ -130,7 +127,7 @@ def save_keys(keys):
                     file.write('{} {} {}'.format(keys[i][0], keys[i][1], keys[i][2]))
             else:
                 with open(directory + '/' + name + '.txt', "w") as file:
-                    file.write('{} {}'.format(keys[i][0],keys[i][1]))
+                    file.write('{} {}'.format(keys[i][0], keys[i][1]))
         except Exception as e:
             print('Actual error: {0}'.format(e))
     root.destroy()

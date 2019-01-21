@@ -59,5 +59,3 @@ class OTP:
             return_msg = original_msg
 
         return return_msg
-
-
