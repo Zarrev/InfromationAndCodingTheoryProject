@@ -3,7 +3,7 @@ from III import rsa_encryption as re, file_handler as fh
 if __name__ == '__main__':
     rsa = re.RSA()
 
-    input_data = fh.get_file()
+    input_data = fh.get_file(rsa=True)
     print('input:', input_data)
 
     keys = rsa.generate_keys(43, 59)
