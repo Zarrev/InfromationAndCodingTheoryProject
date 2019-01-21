@@ -68,15 +68,14 @@ class RSA:
     @staticmethod
     def choose_e(phi_m):
         """
-        This function choose a appropriate 'e' value. The randrange let the 1 possible value as well because Győri
-        Vajda's book says that. (However I found it strange.)
+        This function choose a appropriate 'e' value.
         :param phi_m: totient of m
         :return: the selected e what coprime with the totient
         """
-        e = random.randrange(2, phi_m-1)
+        e = random.randrange(2, phi_m)
 
         while RSA.gcd(e, phi_m) != 1:
-            e = random.randrange(2, phi_m-1)
+            e = random.randrange(2, phi_m)
 
         return e
 
@@ -97,7 +96,7 @@ class RSA:
         self.private_key = private_key
 
     def encrypt(self, input_data):
-        self.data = input_data
+        self.data = input_data.split(' ')
         if self.public_key is None:
             raise Exception("You cannot encrypt anything because you don't have a public key for it.")
 
@@ -106,7 +105,10 @@ class RSA:
 
         ciphered = []
         for i in range(len(self.data)):
-            ciphered.append(str((ord(self.data[i]) ** e) % m))
+            ciphered.append(str((int(self.data[i]) ** e) % m))
+            if ciphered[i] ==2:
+                print(self.data[i], e, m)
+                break
 
         return ' '.join(ciphered)
 
@@ -119,8 +121,17 @@ class RSA:
         m = self.private_key[0] * self.private_key[1]
 
         ciphered = [int(x) for x in self.data.split(' ')]
-        plain = ''
+        plain = []
         for i in range(len(ciphered)):
-            plain += chr((ciphered[i] ** d) % m)
+            plain.append(str((ciphered[i] ** d) % m))
 
-        return plain
+        return ' '.join(plain)
+
+
+if __name__ == "__main__":
+    import array
+
+    l = [199, 57, 32, 51, 231, 147, 193, 114, 13, 39]
+
+    print(array.array('B', l).tostring())
+    print(bytes(l))

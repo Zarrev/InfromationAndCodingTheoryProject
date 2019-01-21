@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from os import getcwd
+import codecs
 
 """
 This global variable is exist for keep the file's name if we need it later.
@@ -8,7 +9,7 @@ This global variable is exist for keep the file's name if we need it later.
 filename = 'UNNAMED'
 
 
-def get_file(title="Select a file for the operation!"):
+def get_file(title="Select a file for the operation!", rsa=False):
     """
     This function read the chosen file with the tkinter library what gives the GUI part of this function.
     :param title: Optional parameter, we can redefine the title of the pop-up window.
@@ -21,16 +22,24 @@ def get_file(title="Select a file for the operation!"):
     filename = root.filename.split(sep='/')[-1]
     data = None
     try:
-        data = open(root.filename, "rb").read()
+        if rsa:
+            with open(root.filename, "rb") as file: # TODO: not sure rb
+                data = file.read()
+        else:
+            with open(root.filename, "rb") as file:
+                data = file.read()
     except Exception as e:
         print('Something went wrong. :(')
         print('Actual error({0}): {1}'.format(e.errno, e.strerror))
     root.destroy()
 
+    if rsa:
+        return ' '.join([str(x) for x in data])
+
     return data.hex()
 
 
-def save_encrypted_file(data, new_filename=None, title="Select a directory for your file!"):
+def save_encrypted_file(data, new_filename=None, title="Select a directory for your file!", rsa=False):
     """
     This function save your encrypted data.
     :param data: That data what you encrypted (the data has hexadecimal encoding).
@@ -49,7 +58,13 @@ def save_encrypted_file(data, new_filename=None, title="Select a directory for y
     try:
         if directory == '':
             raise Exception('You did not choose any directory for saving.')
-        open(directory + '/' + new_filename, "wb").write(bytes.fromhex(data))
+
+        if rsa:
+            with open(directory + '/' + new_filename, "wb") as file:
+                file.write(bytes([int(x) for x in data.split(" ")]))
+        else:
+            with open(directory + '/' + new_filename, "wb") as file:
+                file.write(bytes.fromhex(data))
         return 'Your encrypted file has saved!'
     except Exception as e:
         print('Actual error: {0}'.format(e))
@@ -68,14 +83,15 @@ def save_key(key, name_of_file):
     try:
         if directory == '':
             raise Exception('You did not choose any directory for saving.')
-        open(directory + '/' + name_of_file + '.txt', "w").write(key)
+        with open(directory + '/' + name_of_file + '.txt', "w") as file:
+            file.write(key)
         return 'Your encrypted file has saved!'
     except Exception as e:
         print('Actual error: {0}'.format(e))
     root.destroy()
 
 
-def load_key():
+def load_key(_tuple=False):
     """
     This function loads your key from a file.
     :return:
@@ -85,10 +101,36 @@ def load_key():
     root.filename = filedialog.askopenfilename(initialdir=getcwd(), title='Select your key_file!')
     data = None
     try:
-        data = open(root.filename, "r").read()
+        if _tuple:
+            with open(root.filename, "r") as file:
+                data = [tuple(map(int, i.split(' '))) for i in file][0]
+        else:
+            with open(root.filename, "r") as file:
+                data = file.read()
     except Exception as e:
         print('Something went wrong. :(')
         print('Actual error({0}): {1}'.format(e.errno, e.strerror))
     root.destroy()
 
     return data
+
+
+def save_keys(keys):
+    root = Tk()
+    root.withdraw()
+    directory = filedialog.askdirectory(initialdir=getcwd(), title="Selec a dictionary for your file!")
+    name = 'public_key'
+    for i in range(2):
+        try:
+            if directory == '':
+                raise Exception('You did not choose any directory for saving.')
+            if i == 1:
+                name = 'private_key'
+                with open(directory + '/' + name + '.txt', "w") as file:
+                    file.write('{} {} {}'.format(keys[i][0], keys[i][1], keys[i][2]))
+            else:
+                with open(directory + '/' + name + '.txt', "w") as file:
+                    file.write('{} {}'.format(keys[i][0],keys[i][1]))
+        except Exception as e:
+            print('Actual error: {0}'.format(e))
+    root.destroy()

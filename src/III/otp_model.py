@@ -1,11 +1,10 @@
-import otp_encryption as oe
+from III import origin_model as om, otp_encryption as oe
 
 
-class OTP_M:
+class OTP_M(om.Model):
 
     def __init__(self):
-        self.input = None
-        self.output = None
+        super().__init__()
         self.otp = oe.OTP()
 
     def set_input(self, _input):
@@ -33,3 +32,7 @@ class OTP_M:
     def get_key(self):
         print(self.otp.key)
         return self.otp.key
+
+    def get_input(self):
+        print(self.input)
+        return self.input
