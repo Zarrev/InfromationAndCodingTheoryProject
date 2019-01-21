@@ -103,7 +103,7 @@ def _quit():
 otp = om.OTP_M()
 rsa = rm.RSA_M()
 window = Tk()
-window.title("Welcome to LikeGeeks app")
+window.title("Welcome to the Encryption World")
 window.geometry('450x300')
 
 tab_control = ttk.Notebook(window)
