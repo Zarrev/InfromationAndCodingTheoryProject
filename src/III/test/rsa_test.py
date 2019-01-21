@@ -1,5 +1,4 @@
-import rsa_encryption as re
-import file_handler as fh
+from III import rsa_encryption as re, file_handler as fh
 
 if __name__ == '__main__':
     rsa = re.RSA()

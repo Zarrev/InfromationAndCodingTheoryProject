@@ -1,5 +1,5 @@
-from otp_encryption import OTP
-import file_handler as fh
+from III.otp_encryption import OTP
+from III import file_handler as fh
 
 if __name__ == '__main__':
     my_input = fh.get_file()
