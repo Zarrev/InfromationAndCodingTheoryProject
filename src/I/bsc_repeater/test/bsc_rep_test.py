@@ -7,7 +7,7 @@ rep = 3
 t = Transmitter('010', rep)
 coded = t.coded_msg
 print(coded)
-c = Channel(coded)
+c = Channel(coded, 0.3)
 sent = c.send_msg()
 print(t.coded_msg, c.error_vector, sent, sep='\n')
 r = Receiver(sent, rep)

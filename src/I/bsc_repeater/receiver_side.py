@@ -24,3 +24,6 @@ class Receiver:
     def set_repeat_num(self, num):
         self.repeat_num = num
         self.decoded = self.decode()
+
+    def get_decoded(self):
+        return self.decoded

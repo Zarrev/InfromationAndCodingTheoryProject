@@ -4,7 +4,7 @@ import string
 
 class Channel:
 
-    def __init__(self, msg, bit_error: float = 0.3):
+    def __init__(self, msg, bit_error: float):
         self.bit_error = bit_error
         self.msg = msg
         self.error_vector = self.cacl_error_vec()
@@ -29,3 +29,6 @@ class Channel:
     def set_bit_err(self, error):
         self.bit_error = error
         self.error_vector = self.cacl_error_vec()
+
+    def get_err_vec(self):
+        return self.error_vector
