@@ -1,0 +1,1 @@
+Sajnos a PyInstaller valamilyen oknál fogva nem mûködott a mai napon így nem sikerült exe-t generálnom a hibajavító kódoláshoz.
