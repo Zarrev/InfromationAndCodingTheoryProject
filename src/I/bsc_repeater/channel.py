@@ -22,13 +22,5 @@ class Channel:
     def send_msg(self):
         return Channel.xor_strs(self.msg, self.error_vector)
 
-    def set_msg(self, msg):
-        self.msg = msg
-        self.error_vector = self.cacl_error_vec()
-
-    def set_bit_err(self, error):
-        self.bit_error = error
-        self.error_vector = self.cacl_error_vec()
-
     def get_err_vec(self):
         return self.error_vector

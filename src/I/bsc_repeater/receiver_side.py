@@ -17,13 +17,5 @@ class Receiver:
 
         return decoded
 
-    def set_received(self, rec):
-        self.received = rec
-        self.decoded = self.decode()
-
-    def set_repeat_num(self, num):
-        self.repeat_num = num
-        self.decoded = self.decode()
-
     def get_decoded(self):
         return self.decoded
