@@ -30,7 +30,7 @@ class OTP:
         The random module that comes with Python does not generate truly random numbers.
         They are computed from an algorithm that creates numbers that only appear random (which is often good enough).
         If the pad is not generated from a truly random source, then it loses its mathematically-perfect secrecy.
-        The os.urandom() function can provide truly random numbers but is a bit more difficult to use.
+        The os.urandom() function can provide truly random numbers.
         :param msg: data what we want to encrypt. This data's coding is hexadecimal.
         """
         msg_len = len(msg)

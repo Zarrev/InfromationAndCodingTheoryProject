@@ -25,9 +25,9 @@ class RSA:
     def extended_gcd(a, b):
         """
         Implementation of the Extended Euclidean algorithm because of the modular multiplicative inverse
-        :param a:
-        :param b:
-        :return: greatest common divisor
+        :param a: positive integer
+        :param b: positive integer
+        :return: a mod b, b mod a, greatest common divisor
         """
         u = [1, 0, 0]
         v = [0, 1, 0]
@@ -58,7 +58,7 @@ class RSA:
         if r != 1:
             raise Exception('The remaining term must be 1. In this case the modulation invers is not exist!')
 
-        return u % m
+        return u
 
     @staticmethod
     def euler_operator(first_prime, second_prime):
