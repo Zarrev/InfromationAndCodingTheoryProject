@@ -1,7 +1,12 @@
 from tkinter import *
 from tkinter.ttk import *
-from I.bsc_repeater.repeater_model import process
+from tkinter import ttk
+from I.bsc_repeater.repeater_model import process, p_b, correct
 import re
+import matplotlib
+matplotlib.use('TkAgg')
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib import pylab as plt
 
 
 class StrRestrictionEntry(Entry):
@@ -84,6 +89,13 @@ def _quit():
     window.quit()
 
 
+def plot_part(x, y):
+    a = fig.add_subplot(111)
+    a.plot(x, y, 'ro')
+    canvas.draw()
+    canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+
+
 def click():
     msg = t.txt1.get()
     repeat = int(t.combo.get())
@@ -93,17 +105,28 @@ def click():
     c.lb4.configure(text=err_vec)
     r.lb3.configure(text=sent)
     r.lb5.configure(text=decoded)
-
+    plot_part(p_b, correct)
 
 window = Tk()
 window.title("Welcome to the ErrorCorrection World")
 window.geometry('450x300')
 
-t = TransGUI(window, click)
-c = ChanGUI(window)
-r = RecGUI(window)
+tab_control = ttk.Notebook(window)
+tab1 = ttk.Frame(tab_control)
+tab2 = ttk.Frame(tab_control)
+tab_control.add(tab1, text='BSC Repeater')
+tab_control.add(tab2, text='BSC Repeater Analysis')
 
-btn = Button(window, text="Quit", command=_quit)
+fig = plt.figure(figsize=(5, 5))
+canvas = FigureCanvasTkAgg(fig, master=tab2)
+
+
+t = TransGUI(tab1, click)
+c = ChanGUI(tab1)
+r = RecGUI(tab1)
+
+btn = Button(tab1, text="Quit", command=_quit)
 btn.grid(column=5, row=7)
 
+tab_control.pack(expand=1, fill='both')
 window.mainloop()
