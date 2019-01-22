@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import ttk
-from I.bsc_repeater.repeater_model import process, p_b, correct
+from I.bsc_repeater.repeater_model import process, correct_pb, counter
 import re
 import matplotlib
 matplotlib.use('TkAgg')
@@ -90,10 +90,9 @@ def _quit():
 
 
 def plot_part(x, y):
-    a = fig.add_subplot(111)
-    a.plot(x, y, 'ro')
+    a.clear()
+    a.plot(x, y, 'r')
     canvas.draw()
-    canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
 
 
 def click():
@@ -105,7 +104,13 @@ def click():
     c.lb4.configure(text=err_vec)
     r.lb3.configure(text=sent)
     r.lb5.configure(text=decoded)
-    plot_part(p_b, correct)
+    _sorted = dict(sorted(correct_pb.items()))
+    _sorted_count = dict(sorted(counter.items()))
+    vals = list(_sorted.values())
+    divs = list(_sorted_count.values())
+    vals = [vals[i] / divs[i] for i in range(len(vals))]
+    plot_part(list(_sorted.keys()), vals)
+
 
 window = Tk()
 window.title("Welcome to the ErrorCorrection World")
@@ -115,9 +120,10 @@ tab_control = ttk.Notebook(window)
 tab1 = ttk.Frame(tab_control)
 tab2 = ttk.Frame(tab_control)
 tab_control.add(tab1, text='BSC Repeater')
-tab_control.add(tab2, text='BSC Repeater Analysis')
+tab_control.add(tab2, text='BSC Repeater Analysis - Avg. of Correct by Pb')
 
 fig = plt.figure(figsize=(5, 5))
+a = fig.add_subplot(111)
 canvas = FigureCanvasTkAgg(fig, master=tab2)
 
 
@@ -128,5 +134,6 @@ r = RecGUI(tab1)
 btn = Button(tab1, text="Quit", command=_quit)
 btn.grid(column=5, row=7)
 
+canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
 tab_control.pack(expand=1, fill='both')
 window.mainloop()
